@@ -26,7 +26,7 @@ function showTasks(){
         `
         taskList.appendChild(tasktaskItem)
         
-    };
+    }
 }
 
 function showAlert(message, tybe){
