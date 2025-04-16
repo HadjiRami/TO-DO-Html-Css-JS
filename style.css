@@ -8,11 +8,12 @@ body {
     height: 100vh;
     margin: 0;
     position: relative;
-    direction: rtl;
+    direction: ltr;
+
   }
   
-  /* 🔹 حاوية المهام */
-  .todo-container {
+  /*  حاوية المهام */
+  .ToDo-Container {
     background: white;
     padding: 20px;
     border-radius: 12px;
@@ -210,3 +211,12 @@ body {
       transform: translateX(-50%);
     }
   }
+  #taskInput {
+    direction: ltr;
+    text-align: left;
+  }
+  li {
+    direction: ltr;
+    text-align: left;
+  }
+  

@@ -4,17 +4,18 @@ let taskList= document.getElementById('taskList')
 let list = JSON.parse(localStorage.getItem('tasks')) || []
 let isEditing = false
 let currentIndex = null
-
+addBtn.addEventListener('click', addTasks)
 function saveTasks(){
     localStorage.setItem('tasks', JSON.stringify(list))
 }
 function clearInput(){
     taskInput.value = ''
 }
-function showTasks(){
+function showTasks()
+{
     taskList.innerHTML = ''
-    list.array.forEach(taskInput,index) => {
-        let tasktaskItem = document.createElement('li')
+    list.forEach((task,index) => {
+        let taskItem = document.createElement('li')
         taskItem.innerHTML = `
         <div> <input class="checkbox active" type="checkbox" />
             <p>${task}</p>
@@ -24,26 +25,34 @@ function showTasks(){
         <i onclick="removeTask(${index})" class="fa-solid fa-trash-can delete"></i>
           </span>
         `
-        taskList.appendChild(tasktaskItem)
+        taskList.appendChild(taskItem)
         
-    }
+    })
 }
-
-function showAlert(message, tybe){
+function showAlert(message, type) {
     // Check for and remove a previous alert before adding a new one
     let existingAlert = document.querySelector('.alertBox')
     if (existingAlert) existingAlert.remove()
-}
-// Creating an alert item
-let alertBox = document.createElement('div')
-alertBox.classList.add('alertBox', tybe)
-alertBox.innerHTML=`<span>${message}</span>
-    <button class="close-btn">&times;</button>`
+
+    // Creating an alert item
+    let alertBox = document.createElement('div')
+    alertBox.classList.add('alertBox', type)
+    alertBox.innerHTML = `
+        <span>${message}</span>
+        <button class="close-btn">&times;</button>
+    `
     document.body.appendChild(alertBox)
 
-    setTimeout(()=>{
+    // زر الإغلاق اليدوي
+    alertBox.querySelector('.close-btn').addEventListener('click', () => {
         alertBox.remove()
-    },300)
+    })
+
+    // إزالة التنبيه تلقائيًا بعد 3 ثوانٍ
+    setTimeout(() => {
+        alertBox.remove()
+    }, 3000)
+}
 
     function addTasks(){
         let taskText = taskInput.value.trim()
@@ -51,14 +60,15 @@ alertBox.innerHTML=`<span>${message}</span>
             showAlert('Can"t add an empty task!', 'error')
             return
         }
-        if(isEditing){
+        if (isEditing) {
             list[currentIndex] = taskText
             addBtn.textContent = 'Add'
             isEditing = false
             currentIndex = null
-            showAlert('Task added','success')
+            showAlert('Task updated', 'success')
+        }
 
-        }else{
+        else{
             list.push(taskText)
             showAlert('Task added', 'success')
         }
@@ -74,7 +84,8 @@ alertBox.innerHTML=`<span>${message}</span>
       }
       function updateTask(index) {
         taskInput.value = list[index]
-        createBtn.textContent = 'Update'
+        addBtn.textContent = 'Update'
+        addBtn.style.backgroundColor = '#4caf50'
         isEditing = true
         currentIndex = index
       }
